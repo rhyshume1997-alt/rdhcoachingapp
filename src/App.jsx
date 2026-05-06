@@ -13,7 +13,7 @@ const glass=(a=0.04)=>`rgba(255,255,255,${a})`;
 const border=(a=0.08)=>`1px solid rgba(255,255,255,${a})`;
 const glow=(col,s=20)=>`0 0 ${s}px ${col}22`;
 const FONT="'DM Sans', sans-serif";
-const COACH_PIN="6746";
+const COACH_PIN="RDH2025";
 
 const Icon=({d,size=18,color="currentColor",fill="none",strokeWidth=1.5,style={}})=>(
   <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0,...style}}>
@@ -957,6 +957,7 @@ function CheckInPage({clientId, workouts, habits, habitLog, metrics, setMetrics,
   const [answers, setAnswers] = useState({});
   const [ready, setReady] = useState(false);
   const [savedToast,setSavedToast]=useState(false);
+  const [showHistory,setShowHistory]=useState(false);
   const todayEntry = checkInLog[today];
   const todayDailyDone = !!(todayEntry?.daily);
   const todayWeeklyDone = !!(todayEntry?.weekly);
@@ -1076,8 +1077,18 @@ function CheckInPage({clientId, workouts, habits, habitLog, metrics, setMetrics,
         </div>
       </div>
     );
+    // Fallback for unhandled field types
     return null;
   };
+
+  // Safe wrapper to prevent single field crash from killing whole form
+  const safeRenderField = (field) => {
+    if(!field || !field.id || !field.type) return null;
+    try { return renderField(field); } catch(e) { return null; }
+  };
+
+  // ── HISTORY VIEW ─────────────────────────────────────────────────────────────
+  if(showHistory) return <CheckInHistory clientId={clientId} tier={tier} onBack={()=>setShowHistory(false)}/>;
 
   // ── DAILY FORM VIEW ──────────────────────────────────────────────────────────
   if(formView==="daily") return(
@@ -1096,7 +1107,7 @@ function CheckInPage({clientId, workouts, habits, habitLog, metrics, setMetrics,
       </div>
       <div style={{padding:"14px 20px",paddingBottom:100}}>
         <Card>
-          {(tierForms.daily||[]).map(f=>renderField(f))}
+          {(tierForms.daily||[]).map((f,i)=>safeRenderField(f))}
           <div style={{borderTop:`1px solid ${C.dark4}`,paddingTop:14,marginTop:4}}>
             <Btn onClick={()=>submitForm("daily")} style={{width:"100%",justifyContent:"center",padding:15,fontSize:15}} icon="check">
               Submit Check-In
@@ -1124,7 +1135,7 @@ function CheckInPage({clientId, workouts, habits, habitLog, metrics, setMetrics,
       </div>
       <div style={{padding:"14px 20px",paddingBottom:100}}>
         <Card>
-          {(tierForms.weekly||[]).map(f=>renderField(f))}
+          {(tierForms.weekly||[]).map((f,i)=>safeRenderField(f))}
           <div style={{borderTop:`1px solid ${C.dark4}`,paddingTop:14,marginTop:4}}>
             <Btn onClick={()=>submitForm("weekly")} style={{width:"100%",justifyContent:"center",padding:15,fontSize:15}} icon="check">
               Submit Weekly Review
@@ -1136,9 +1147,6 @@ function CheckInPage({clientId, workouts, habits, habitLog, metrics, setMetrics,
   );
 
   // ── HUB VIEW ─────────────────────────────────────────────────────────────────
-  const [showHistory,setShowHistory]=useState(false);
-  if(showHistory) return <CheckInHistory clientId={clientId} tier={tier} onBack={()=>setShowHistory(false)}/>;
-
   return(
     <div>
       <Toast msg="Check-in submitted!" show={savedToast}/>
