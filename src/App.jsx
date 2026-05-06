@@ -136,37 +136,119 @@ const EQUIPS=["Barbell","Dumbbell","Cable","Machine","Bodyweight","Other"];
 const CAT_COLOR={Chest:"#5271FF",Back:"#C46BE4",Shoulders:"#AB8B00",Biceps:"#22C55E",Triceps:"#EF4444",Legs:"#FF6B6B",Core:"#4ECDC4",Cardio:"#F8CAFF"};
 
 const BASE_EX=[
-  {id:"e1",name:"Bench Press",cat:"Chest",equip:"Barbell",muscles:"Chest  -  Triceps  -  Front Delts"},
-  {id:"e2",name:"Incline Bench Press",cat:"Chest",equip:"Barbell",muscles:"Upper Chest  -  Triceps"},
-  {id:"e3",name:"Dumbbell Flye",cat:"Chest",equip:"Dumbbell",muscles:"Chest"},
-  {id:"e4",name:"Cable Crossover",cat:"Chest",equip:"Cable",muscles:"Chest"},
-  {id:"e5",name:"Push Up",cat:"Chest",equip:"Bodyweight",muscles:"Chest  -  Triceps"},
-  {id:"e6",name:"Deadlift",cat:"Back",equip:"Barbell",muscles:"Lower Back  -  Hamstrings  -  Traps"},
-  {id:"e7",name:"Pull Up",cat:"Back",equip:"Bodyweight",muscles:"Lats  -  Biceps"},
-  {id:"e8",name:"Barbell Row",cat:"Back",equip:"Barbell",muscles:"Mid Back  -  Lats  -  Biceps"},
-  {id:"e9",name:"Lat Pulldown",cat:"Back",equip:"Cable",muscles:"Lats  -  Biceps"},
-  {id:"e10",name:"Seated Cable Row",cat:"Back",equip:"Cable",muscles:"Mid Back  -  Lats"},
-  {id:"e11",name:"Overhead Press",cat:"Shoulders",equip:"Barbell",muscles:"Front Delts  -  Side Delts"},
-  {id:"e12",name:"Lateral Raise",cat:"Shoulders",equip:"Dumbbell",muscles:"Side Delts"},
-  {id:"e13",name:"Face Pull",cat:"Shoulders",equip:"Cable",muscles:"Rear Delts"},
-  {id:"e14",name:"Barbell Curl",cat:"Biceps",equip:"Barbell",muscles:"Biceps"},
-  {id:"e15",name:"Dumbbell Curl",cat:"Biceps",equip:"Dumbbell",muscles:"Biceps"},
-  {id:"e16",name:"Hammer Curl",cat:"Biceps",equip:"Dumbbell",muscles:"Biceps  -  Brachialis"},
-  {id:"e17",name:"Tricep Pushdown",cat:"Triceps",equip:"Cable",muscles:"Triceps"},
-  {id:"e18",name:"Skull Crusher",cat:"Triceps",equip:"Barbell",muscles:"Triceps"},
-  {id:"e19",name:"Squat",cat:"Legs",equip:"Barbell",muscles:"Quads  -  Glutes  -  Hamstrings"},
-  {id:"e20",name:"Romanian Deadlift",cat:"Legs",equip:"Barbell",muscles:"Hamstrings  -  Glutes"},
-  {id:"e21",name:"Leg Press",cat:"Legs",equip:"Machine",muscles:"Quads  -  Glutes"},
-  {id:"e22",name:"Leg Curl",cat:"Legs",equip:"Machine",muscles:"Hamstrings"},
-  {id:"e23",name:"Leg Extension",cat:"Legs",equip:"Machine",muscles:"Quads"},
-  {id:"e24",name:"Bulgarian Split Squat",cat:"Legs",equip:"Dumbbell",muscles:"Quads  -  Glutes"},
-  {id:"e25",name:"Hip Thrust",cat:"Legs",equip:"Barbell",muscles:"Glutes  -  Hamstrings"},
-  {id:"e26",name:"Hack Squat",cat:"Legs",equip:"Machine",muscles:"Quads"},
-  {id:"e27",name:"Plank",cat:"Core",equip:"Bodyweight",muscles:"Core  -  Abs"},
-  {id:"e28",name:"Cable Crunch",cat:"Core",equip:"Cable",muscles:"Abs"},
-  {id:"e29",name:"Hanging Leg Raise",cat:"Core",equip:"Bodyweight",muscles:"Abs  -  Hip Flexors"},
-  {id:"e30",name:"Treadmill",cat:"Cardio",equip:"Machine",muscles:"Full Body"},
-  {id:"e31",name:"Rowing Machine",cat:"Cardio",equip:"Machine",muscles:"Full Body"},
+  // ── CHEST ──────────────────────────────────────────────────────────────────
+  {id:"e1",name:"Bench Press",cat:"Chest",equip:"Barbell",muscles:"Chest - Triceps - Front Delts"},
+  {id:"e2",name:"Incline Bench Press",cat:"Chest",equip:"Barbell",muscles:"Upper Chest - Triceps"},
+  {id:"e3",name:"Dumbbell Incline Chest Press",cat:"Chest",equip:"Dumbbell",muscles:"Upper Chest - Triceps"},
+  {id:"e4",name:"Low Incline Dumbbell Press",cat:"Chest",equip:"Dumbbell",muscles:"Mid Chest - Triceps"},
+  {id:"e5",name:"Cable Chest Press",cat:"Chest",equip:"Cable",muscles:"Chest - Triceps"},
+  {id:"e6",name:"Cuffed Cable Fly",cat:"Chest",equip:"Cable",muscles:"Chest"},
+  {id:"e7",name:"Incline Cuffed Cable Fly",cat:"Chest",equip:"Cable",muscles:"Upper Chest"},
+  {id:"e8",name:"Pin Loaded Chest Press",cat:"Chest",equip:"Machine",muscles:"Chest - Triceps"},
+  {id:"e9",name:"Prime Lying Chest Press",cat:"Chest",equip:"Machine",muscles:"Chest"},
+  {id:"e10",name:"Pin Loaded Pec Dec",cat:"Chest",equip:"Machine",muscles:"Chest"},
+  {id:"e11",name:"Hammer Strength Incline Chest Press",cat:"Chest",equip:"Machine",muscles:"Upper Chest"},
+  {id:"e12",name:"Smith Machine Chest Press",cat:"Chest",equip:"Machine",muscles:"Chest - Triceps"},
+  {id:"e13",name:"Incline Smith Machine Chest Press",cat:"Chest",equip:"Machine",muscles:"Upper Chest"},
+  {id:"e14",name:"High Incline Smith Press",cat:"Chest",equip:"Machine",muscles:"Upper Chest"},
+  {id:"e15",name:"Push Up",cat:"Chest",equip:"Bodyweight",muscles:"Chest - Triceps"},
+  {id:"e16",name:"Dips",cat:"Chest",equip:"Bodyweight",muscles:"Chest - Triceps"},
+  // ── BACK ───────────────────────────────────────────────────────────────────
+  {id:"e20",name:"Deadlift",cat:"Back",equip:"Barbell",muscles:"Lower Back - Hamstrings - Traps"},
+  {id:"e21",name:"Bent Over Barbell Row",cat:"Back",equip:"Barbell",muscles:"Mid Back - Lats - Biceps"},
+  {id:"e22",name:"T Bar Row",cat:"Back",equip:"Barbell",muscles:"Upper Back - Lats"},
+  {id:"e23",name:"Pull Ups",cat:"Back",equip:"Bodyweight",muscles:"Lats - Biceps"},
+  {id:"e24",name:"Straight Bar Lat Pulldown",cat:"Back",equip:"Cable",muscles:"Lats - Biceps"},
+  {id:"e25",name:"Pin Loaded Neutral Lat Pulldown",cat:"Back",equip:"Machine",muscles:"Lats - Biceps"},
+  {id:"e26",name:"Neutral Grip Lat Pulldown",cat:"Back",equip:"Cable",muscles:"Lats - Biceps"},
+  {id:"e27",name:"Single Arm Cable Lat Pulldown",cat:"Back",equip:"Cable",muscles:"Lats"},
+  {id:"e28",name:"Plate Loaded Single Arm Lat Pulldown",cat:"Back",equip:"Machine",muscles:"Lats"},
+  {id:"e29",name:"Single Arm Pin Loaded Lat Biased Row",cat:"Back",equip:"Machine",muscles:"Lats"},
+  {id:"e30",name:"D Handle Cable Row (Lat Biased)",cat:"Back",equip:"Cable",muscles:"Lats - Mid Back"},
+  {id:"e31",name:"D Handle Cable Upper Back Row",cat:"Back",equip:"Cable",muscles:"Upper Back - Traps"},
+  {id:"e32",name:"Incline Cable Pullover",cat:"Back",equip:"Cable",muscles:"Lats - Serratus"},
+  {id:"e33",name:"Long Rope Cable Lat Pullover",cat:"Back",equip:"Cable",muscles:"Lats"},
+  {id:"e34",name:"Plate Loaded Low Row",cat:"Back",equip:"Machine",muscles:"Mid Back - Lats"},
+  {id:"e35",name:"Plate Loaded Single Arm Row",cat:"Back",equip:"Machine",muscles:"Lats - Mid Back"},
+  {id:"e36",name:"Prime Plate Loaded Upper Back Row",cat:"Back",equip:"Machine",muscles:"Upper Back - Traps"},
+  {id:"e37",name:"Single Arm Nautilus Lat Biased Row",cat:"Back",equip:"Machine",muscles:"Lats"},
+  {id:"e38",name:"Hammer Strength Single Arm Thoracic Lat Row",cat:"Back",equip:"Machine",muscles:"Lats - Upper Back"},
+  {id:"e39",name:"Chest Supported Dumbbell Row",cat:"Back",equip:"Dumbbell",muscles:"Mid Back - Lats"},
+  // ── SHOULDERS ──────────────────────────────────────────────────────────────
+  {id:"e40",name:"Overhead Press",cat:"Shoulders",equip:"Barbell",muscles:"Front Delts - Side Delts"},
+  {id:"e41",name:"Smith Machine Shoulder Press",cat:"Shoulders",equip:"Machine",muscles:"Front Delts - Side Delts"},
+  {id:"e42",name:"Cybex Plate Loaded Shoulder Press",cat:"Shoulders",equip:"Machine",muscles:"Front Delts - Side Delts"},
+  {id:"e43",name:"Chest Supported Dumbbell Lateral Raise",cat:"Shoulders",equip:"Dumbbell",muscles:"Side Delts"},
+  {id:"e44",name:"Lying Cable Cuffed Lateral Raise",cat:"Shoulders",equip:"Cable",muscles:"Side Delts"},
+  {id:"e45",name:"Single Arm Cable Cuffed Lateral Raise",cat:"Shoulders",equip:"Cable",muscles:"Side Delts"},
+  {id:"e46",name:"Standing Pin Loaded Lateral Raise",cat:"Shoulders",equip:"Machine",muscles:"Side Delts"},
+  {id:"e47",name:"Behind The Back Cable Lateral Raise",cat:"Shoulders",equip:"Cable",muscles:"Side Delts"},
+  {id:"e48",name:"Cuffed Cable Rear Delt Fly",cat:"Shoulders",equip:"Cable",muscles:"Rear Delts"},
+  {id:"e49",name:"Pin Loaded Rear Delt Fly",cat:"Shoulders",equip:"Machine",muscles:"Rear Delts"},
+  {id:"e50",name:"Face Pull",cat:"Shoulders",equip:"Cable",muscles:"Rear Delts - External Rotators"},
+  // ── BICEPS ─────────────────────────────────────────────────────────────────
+  {id:"e55",name:"Barbell Curl",cat:"Biceps",equip:"Barbell",muscles:"Biceps"},
+  {id:"e56",name:"Dumbbell Hammer Curl",cat:"Biceps",equip:"Dumbbell",muscles:"Biceps - Brachialis"},
+  {id:"e57",name:"Incline Dumbbell Curl",cat:"Biceps",equip:"Dumbbell",muscles:"Biceps - Long Head"},
+  {id:"e58",name:"Behind The Body Cable Curl",cat:"Biceps",equip:"Cable",muscles:"Biceps - Long Head"},
+  {id:"e59",name:"Standing EZ Bar Cable Curl",cat:"Biceps",equip:"Cable",muscles:"Biceps"},
+  {id:"e60",name:"Single Arm Cable Preacher Curl",cat:"Biceps",equip:"Cable",muscles:"Biceps - Short Head"},
+  {id:"e61",name:"Single Arm Pin Loaded Preacher Curl",cat:"Biceps",equip:"Machine",muscles:"Biceps"},
+  {id:"e62",name:"Plate Loaded Preacher Curl",cat:"Biceps",equip:"Machine",muscles:"Biceps - Short Head"},
+  // ── TRICEPS ────────────────────────────────────────────────────────────────
+  {id:"e65",name:"Tricep Pushdown",cat:"Triceps",equip:"Cable",muscles:"Triceps"},
+  {id:"e66",name:"Long Rope Tricep Extension",cat:"Triceps",equip:"Cable",muscles:"Triceps - Long Head"},
+  {id:"e67",name:"Long Rope Overhead Tricep Extension",cat:"Triceps",equip:"Cable",muscles:"Triceps - Long Head"},
+  {id:"e68",name:"Over Shoulder Cable Tricep Extension",cat:"Triceps",equip:"Cable",muscles:"Triceps"},
+  {id:"e69",name:"Cable Cross Body Tricep Extension",cat:"Triceps",equip:"Cable",muscles:"Triceps - Lateral Head"},
+  {id:"e70",name:"Skull Crusher",cat:"Triceps",equip:"Barbell",muscles:"Triceps"},
+  {id:"e71",name:"Dumbbell Skull Crushers",cat:"Triceps",equip:"Dumbbell",muscles:"Triceps"},
+  {id:"e72",name:"Single Arm Cuffed Overhead Tricep Extension",cat:"Triceps",equip:"Cable",muscles:"Triceps - Long Head"},
+  {id:"e73",name:"Pin Loaded Tricep Extension",cat:"Triceps",equip:"Machine",muscles:"Triceps"},
+  {id:"e74",name:"Plate Loaded Tricep Dip",cat:"Triceps",equip:"Machine",muscles:"Triceps - Chest"},
+  // ── LEGS ───────────────────────────────────────────────────────────────────
+  {id:"e80",name:"Squat",cat:"Legs",equip:"Barbell",muscles:"Quads - Glutes - Hamstrings"},
+  {id:"e81",name:"Smith Machine Squat",cat:"Legs",equip:"Machine",muscles:"Quads - Glutes"},
+  {id:"e82",name:"Pendulum Squat",cat:"Legs",equip:"Machine",muscles:"Quads - Glutes"},
+  {id:"e83",name:"Reverse Banded Hack Squat",cat:"Legs",equip:"Machine",muscles:"Quads"},
+  {id:"e84",name:"45 Degree Leg Press",cat:"Legs",equip:"Machine",muscles:"Quads - Glutes"},
+  {id:"e85",name:"Pin Loaded Leg Press",cat:"Legs",equip:"Machine",muscles:"Quads - Glutes"},
+  {id:"e86",name:"Pin Loaded Single Leg Leg Press",cat:"Legs",equip:"Machine",muscles:"Quads - Glutes"},
+  {id:"e87",name:"Single Leg Leg Press (Quad Biased)",cat:"Legs",equip:"Machine",muscles:"Quads"},
+  {id:"e88",name:"Dumbbell Bulgarian Split Squats",cat:"Legs",equip:"Dumbbell",muscles:"Quads - Glutes"},
+  {id:"e89",name:"Prime Leg Extension",cat:"Legs",equip:"Machine",muscles:"Quads"},
+  {id:"e90",name:"Pin Loaded Leg Extension",cat:"Legs",equip:"Machine",muscles:"Quads"},
+  {id:"e91",name:"Barbell Hip Thrust",cat:"Legs",equip:"Barbell",muscles:"Glutes - Hamstrings"},
+  {id:"e92",name:"Plate Loaded Hip Thrust",cat:"Legs",equip:"Machine",muscles:"Glutes - Hamstrings"},
+  {id:"e93",name:"Smith Machine Hip Thrust",cat:"Legs",equip:"Machine",muscles:"Glutes - Hamstrings"},
+  {id:"e94",name:"45 Degree Hip Extension",cat:"Legs",equip:"Machine",muscles:"Glutes - Spinal Erectors"},
+  {id:"e95",name:"Barbell Romanian Deadlift",cat:"Legs",equip:"Barbell",muscles:"Hamstrings - Glutes"},
+  {id:"e96",name:"Dumbbell Romanian Deadlift",cat:"Legs",equip:"Dumbbell",muscles:"Hamstrings - Glutes"},
+  {id:"e97",name:"Stiff Leg Deadlift",cat:"Legs",equip:"Barbell",muscles:"Hamstrings - Glutes - Lower Back"},
+  {id:"e98",name:"Pin Loaded Lying Hamstring Curl",cat:"Legs",equip:"Machine",muscles:"Hamstrings"},
+  {id:"e99",name:"Plate Loaded Seated Hamstring Curl",cat:"Legs",equip:"Machine",muscles:"Hamstrings"},
+  {id:"e100",name:"Pin Loaded Adductor",cat:"Legs",equip:"Machine",muscles:"Adductors - Inner Thigh"},
+  {id:"e101",name:"Seated Calf Raise",cat:"Legs",equip:"Machine",muscles:"Soleus - Calves"},
+  {id:"e102",name:"Standing Calf Raise",cat:"Legs",equip:"Machine",muscles:"Gastrocnemius - Calves"},
+  {id:"e103",name:"Calf Press on Pin Loaded Leg Press",cat:"Legs",equip:"Machine",muscles:"Calves"},
+  // ── CORE ───────────────────────────────────────────────────────────────────
+  {id:"e110",name:"Cable Ab Crunch",cat:"Core",equip:"Cable",muscles:"Abs"},
+  {id:"e111",name:"Machine Ab Crunch",cat:"Core",equip:"Machine",muscles:"Abs"},
+  {id:"e112",name:"Hanging Leg Raise",cat:"Core",equip:"Bodyweight",muscles:"Abs - Hip Flexors"},
+  {id:"e113",name:"Plank",cat:"Core",equip:"Bodyweight",muscles:"Core - Abs"},
+  {id:"e114",name:"Ab Wheel Rollout",cat:"Core",equip:"Other",muscles:"Abs - Lats"},
+  // ── CARDIO ─────────────────────────────────────────────────────────────────
+  {id:"e120",name:"Ski Erg",cat:"Cardio",equip:"Machine",muscles:"Full Body - Lats - Core"},
+  {id:"e121",name:"Rowing Machine",cat:"Cardio",equip:"Machine",muscles:"Full Body - Back - Legs"},
+  {id:"e122",name:"Assault Bike",cat:"Cardio",equip:"Machine",muscles:"Full Body"},
+  {id:"e123",name:"Treadmill",cat:"Cardio",equip:"Machine",muscles:"Lower Body - Cardiovascular"},
+  {id:"e124",name:"Burpees",cat:"Cardio",equip:"Bodyweight",muscles:"Full Body"},
+  {id:"e125",name:"Box Jumps",cat:"Cardio",equip:"Other",muscles:"Quads - Glutes - Calves"},
+  {id:"e126",name:"Battle Ropes",cat:"Cardio",equip:"Other",muscles:"Shoulders - Core - Cardiovascular"},
+  {id:"e127",name:"Sled Push",cat:"Cardio",equip:"Other",muscles:"Quads - Glutes - Calves"},
+  {id:"e128",name:"Farmer Carries",cat:"Cardio",equip:"Dumbbell",muscles:"Full Body - Grip - Core"},
+  {id:"e129",name:"Kettlebell Swings",cat:"Cardio",equip:"Other",muscles:"Glutes - Hamstrings - Core"},
+  {id:"e130",name:"Jump Rope",cat:"Cardio",equip:"Other",muscles:"Calves - Cardiovascular"},
 ];
 
 const FOOD_DB=[
@@ -721,10 +803,60 @@ function ExForm({ex,onSave,onClose}){
 
 
 const WORKOUT_TEMPLATES=[
-  {name:"Push Day",exercises:[{exId:"e1",name:"Bench Press",cat:"Chest",sets:[{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false}]},{exId:"e11",name:"Overhead Press",cat:"Shoulders",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},{exId:"e12",name:"Lateral Raise",cat:"Shoulders",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]},{exId:"e17",name:"Tricep Pushdown",cat:"Triceps",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]}]},
-  {name:"Pull Day",exercises:[{exId:"e6",name:"Deadlift",cat:"Back",sets:[{weight:"",reps:"5",done:false},{weight:"",reps:"5",done:false},{weight:"",reps:"5",done:false}]},{exId:"e8",name:"Barbell Row",cat:"Back",sets:[{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false}]},{exId:"e9",name:"Lat Pulldown",cat:"Back",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},{exId:"e14",name:"Barbell Curl",cat:"Biceps",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]}]},
-  {name:"Leg Day",exercises:[{exId:"e19",name:"Squat",cat:"Legs",sets:[{weight:"",reps:"5",done:false},{weight:"",reps:"5",done:false},{weight:"",reps:"5",done:false}]},{exId:"e21",name:"Leg Press",cat:"Legs",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},{exId:"e25",name:"Hip Thrust",cat:"Legs",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},{exId:"e22",name:"Leg Curl",cat:"Legs",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]}]},
-  {name:"Upper Body",exercises:[{exId:"e2",name:"Incline Bench Press",cat:"Chest",sets:[{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false}]},{exId:"e8",name:"Barbell Row",cat:"Back",sets:[{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false}]},{exId:"e11",name:"Overhead Press",cat:"Shoulders",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},{exId:"e7",name:"Pull Up",cat:"Back",sets:[{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false}]}]},
+  {name:"Push Day",exercises:[
+    {exId:"e1",name:"Bench Press",cat:"Chest",sets:[{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false}]},
+    {exId:"e13",name:"Incline Smith Machine Chest Press",cat:"Chest",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},
+    {exId:"e6",name:"Cuffed Cable Fly",cat:"Chest",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]},
+    {exId:"e42",name:"Smith Machine Shoulder Press",cat:"Shoulders",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},
+    {exId:"e44",name:"Lying Cable Cuffed Lateral Raise",cat:"Shoulders",sets:[{weight:"",reps:"15",done:false},{weight:"",reps:"15",done:false},{weight:"",reps:"15",done:false}]},
+    {exId:"e67",name:"Long Rope Overhead Tricep Extension",cat:"Triceps",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]},
+    {exId:"e66",name:"Long Rope Tricep Extension",cat:"Triceps",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]},
+  ]},
+  {name:"Pull Day",exercises:[
+    {exId:"e20",name:"Deadlift",cat:"Back",sets:[{weight:"",reps:"5",done:false},{weight:"",reps:"5",done:false},{weight:"",reps:"5",done:false}]},
+    {exId:"e24",name:"Straight Bar Lat Pulldown",cat:"Back",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},
+    {exId:"e34",name:"Plate Loaded Low Row",cat:"Back",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},
+    {exId:"e32",name:"Incline Cable Pullover",cat:"Back",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]},
+    {exId:"e48",name:"Cuffed Cable Rear Delt Fly",cat:"Shoulders",sets:[{weight:"",reps:"15",done:false},{weight:"",reps:"15",done:false},{weight:"",reps:"15",done:false}]},
+    {exId:"e58",name:"Behind The Body Cable Curl",cat:"Biceps",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]},
+    {exId:"e60",name:"Single Arm Cable Preacher Curl",cat:"Biceps",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]},
+  ]},
+  {name:"Leg Day",exercises:[
+    {exId:"e83",name:"Reverse Banded Hack Squat",cat:"Legs",sets:[{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false}]},
+    {exId:"e84",name:"45 Degree Leg Press",cat:"Legs",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},
+    {exId:"e91",name:"Barbell Hip Thrust",cat:"Legs",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},
+    {exId:"e95",name:"Barbell Romanian Deadlift",cat:"Legs",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},
+    {exId:"e98",name:"Pin Loaded Lying Hamstring Curl",cat:"Legs",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]},
+    {exId:"e89",name:"Prime Leg Extension",cat:"Legs",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]},
+    {exId:"e101",name:"Seated Calf Raise",cat:"Legs",sets:[{weight:"",reps:"15",done:false},{weight:"",reps:"15",done:false},{weight:"",reps:"15",done:false}]},
+  ]},
+  {name:"Upper Body",exercises:[
+    {exId:"e3",name:"Dumbbell Incline Chest Press",cat:"Chest",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},
+    {exId:"e21",name:"Bent Over Barbell Row",cat:"Back",sets:[{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false}]},
+    {exId:"e40",name:"Overhead Press",cat:"Shoulders",sets:[{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false}]},
+    {exId:"e23",name:"Pull Ups",cat:"Back",sets:[{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false}]},
+    {exId:"e43",name:"Chest Supported Dumbbell Lateral Raise",cat:"Shoulders",sets:[{weight:"",reps:"15",done:false},{weight:"",reps:"15",done:false},{weight:"",reps:"15",done:false}]},
+    {exId:"e55",name:"Barbell Curl",cat:"Biceps",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},
+    {exId:"e70",name:"Skull Crusher",cat:"Triceps",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},
+  ]},
+  {name:"Lower Body",exercises:[
+    {exId:"e80",name:"Squat",cat:"Legs",sets:[{weight:"",reps:"5",done:false},{weight:"",reps:"5",done:false},{weight:"",reps:"5",done:false},{weight:"",reps:"5",done:false}]},
+    {exId:"e88",name:"Dumbbell Bulgarian Split Squats",cat:"Legs",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},
+    {exId:"e94",name:"45 Degree Hip Extension",cat:"Legs",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]},
+    {exId:"e97",name:"Stiff Leg Deadlift",cat:"Legs",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},
+    {exId:"e99",name:"Plate Loaded Seated Hamstring Curl",cat:"Legs",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]},
+    {exId:"e100",name:"Pin Loaded Adductor",cat:"Legs",sets:[{weight:"",reps:"15",done:false},{weight:"",reps:"15",done:false},{weight:"",reps:"15",done:false}]},
+    {exId:"e103",name:"Calf Press on Pin Loaded Leg Press",cat:"Legs",sets:[{weight:"",reps:"15",done:false},{weight:"",reps:"15",done:false},{weight:"",reps:"15",done:false}]},
+  ]},
+  {name:"Conditioning",exercises:[
+    {exId:"e120",name:"Ski Erg",cat:"Cardio",sets:[{weight:"5",reps:"mins",done:false},{weight:"5",reps:"mins",done:false},{weight:"5",reps:"mins",done:false}]},
+    {exId:"e121",name:"Rowing Machine",cat:"Cardio",sets:[{weight:"500",reps:"m",done:false},{weight:"500",reps:"m",done:false},{weight:"500",reps:"m",done:false}]},
+    {exId:"e124",name:"Burpees",cat:"Cardio",sets:[{weight:"",reps:"15",done:false},{weight:"",reps:"15",done:false},{weight:"",reps:"15",done:false}]},
+    {exId:"e122",name:"Assault Bike",cat:"Cardio",sets:[{weight:"",reps:"30 secs",done:false},{weight:"",reps:"30 secs",done:false},{weight:"",reps:"30 secs",done:false}]},
+    {exId:"e129",name:"Kettlebell Swings",cat:"Cardio",sets:[{weight:"",reps:"20",done:false},{weight:"",reps:"20",done:false},{weight:"",reps:"20",done:false}]},
+    {exId:"e125",name:"Box Jumps",cat:"Cardio",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},
+    {exId:"e127",name:"Sled Push",cat:"Cardio",sets:[{weight:"",reps:"20m",done:false},{weight:"",reps:"20m",done:false},{weight:"",reps:"20m",done:false}]},
+  ]},
 ];
 
 // ── WORKOUT LOGGER ────────────────────────────────────────────────────────────
@@ -1004,6 +1136,9 @@ function CheckInPage({clientId, workouts, habits, habitLog, metrics, setMetrics,
   );
 
   // ── HUB VIEW ─────────────────────────────────────────────────────────────────
+  const [showHistory,setShowHistory]=useState(false);
+  if(showHistory) return <CheckInHistory clientId={clientId} tier={tier} onBack={()=>setShowHistory(false)}/>;
+
   return(
     <div>
       <Toast msg="Check-in submitted!" show={savedToast}/>
@@ -1013,7 +1148,10 @@ function CheckInPage({clientId, workouts, habits, habitLog, metrics, setMetrics,
             <div style={{fontSize:10,color:C.gold,fontWeight:700,letterSpacing:"0.12em",textTransform:"uppercase",marginBottom:4}}>Check In</div>
             <div style={{fontSize:28,fontWeight:700,color:C.white,letterSpacing:"-0.04em",lineHeight:1}}>Daily Standards</div>
           </div>
-          <TierBadge tier={tier}/>
+          <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:6}}>
+            <TierBadge tier={tier}/>
+            <button onClick={()=>setShowHistory(true)} style={{background:glass(0.08),border:border(0.1),color:C.muted,borderRadius:10,padding:"5px 12px",cursor:"pointer",fontFamily:FONT,fontSize:11,fontWeight:600,display:"flex",alignItems:"center",gap:4}}><Icon d={Icons.clock} size={11} color={C.muted}/>History</button>
+          </div>
         </div>
       </div>
       <div style={{padding:"0 20px",display:"flex",flexDirection:"column",gap:12,paddingBottom:90}}>
@@ -1838,6 +1976,97 @@ function StatsPage({metrics,setMetrics,workouts,photoIds,photoMap,addPhoto,delet
       </div>
     </Modal>
     {fullPhoto&&<div style={{position:"fixed",inset:0,zIndex:9999,background:"rgba(0,0,0,0.95)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}><img src={fullPhoto.data} alt="" style={{maxWidth:"100%",maxHeight:"78vh",objectFit:"contain",borderRadius:14}}/><div style={{display:"flex",gap:12,marginTop:16}}><Btn onClick={()=>{deletePhoto(fullPhoto.id);setFullPhoto(null);}} variant="danger" style={{padding:"10px 20px"}} icon="trash">Delete</Btn><Btn onClick={()=>setFullPhoto(null)} variant="secondary" style={{padding:"10px 20px"}}>Close</Btn></div></div>}
+  </div>;
+}
+
+
+// ── CLIENT CHECK-IN HISTORY ───────────────────────────────────────────────────
+function CheckInHistory({clientId,tier,onBack}){
+  const [log,setLog]=useState({});
+  const [sel,setSel]=useState(null);
+  const [ready,setReady]=useState(false);
+
+  useEffect(()=>{
+    db.get(cKey(clientId,"checkin-log"),true).then(l=>{setLog(l||{});setReady(true);});
+  },[clientId]);
+
+  const entries=Object.entries(log).sort((a,b)=>b[0].localeCompare(a[0]));
+
+  if(sel){
+    const ci=log[sel]||{};
+    const d=ci.daily||{},w=ci.weekly||{};
+    return <div>
+      <div style={{padding:"20px 20px 0",display:"flex",alignItems:"center",gap:12}}>
+        <button onClick={()=>setSel(null)} style={{background:glass(0.07),border:border(0.1),color:C.white,width:36,height:36,borderRadius:12,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><Icon d={Icons.back} size={16} color={C.white}/></button>
+        <div><div style={{fontSize:18,fontWeight:700,color:C.white,letterSpacing:"-0.03em"}}>{fmtDate(sel)}</div><div style={{fontSize:11,color:C.muted}}>Check-In Details</div></div>
+      </div>
+      <div style={{padding:"14px 20px",display:"flex",flexDirection:"column",gap:10,paddingBottom:90}}>
+        {ci.daily&&<Card>
+          <div style={{fontSize:10,color:C.blue,fontWeight:700,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:10}}>Daily Check-In</div>
+          <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:10}}>
+            {d.weight&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:`${C.blue}20`,color:C.blue}}>{d.weight} lbs</span>}
+            {d.sleep&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:glass(0.06),color:C.muted,border:border(0.08)}}>Sleep: {d.sleep}h</span>}
+            {d.steps&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:glass(0.06),color:C.muted,border:border(0.08)}}>{parseInt(d.steps).toLocaleString()} steps</span>}
+            {d.calories&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:`${C.green}20`,color:C.green}}>{d.calories} kcal</span>}
+            {d.protein&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:`${C.gold}20`,color:C.gold}}>{d.protein}g protein</span>}
+            {d.mood&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:glass(0.06),color:C.muted,border:border(0.08)}}>Mood: {d.mood}</span>}
+            {d.energy&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:glass(0.06),color:C.muted,border:border(0.08)}}>Energy: {d.energy}</span>}
+            {d.stress&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:glass(0.06),color:C.muted,border:border(0.08)}}>Stress: {d.stress}</span>}
+            {d.hunger&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:glass(0.06),color:C.muted,border:border(0.08)}}>Hunger: {d.hunger}/10</span>}
+          </div>
+          {d.win&&<div style={{fontSize:13,color:C.white,padding:"10px 12px",background:glass(0.04),borderRadius:10,border:border(0.08)}}><b style={{color:C.gold}}>Win: </b>{d.win}</div>}
+          {d.winAdjust&&<div style={{fontSize:13,color:C.white,marginTop:6,padding:"10px 12px",background:glass(0.04),borderRadius:10,border:border(0.08)}}><b style={{color:C.blue}}>Win + Adjust: </b>{d.winAdjust}</div>}
+          {d.tmrw&&<div style={{fontSize:13,color:C.white,marginTop:6,padding:"10px 12px",background:glass(0.04),borderRadius:10,border:border(0.08)}}><b style={{color:C.purple}}>Tomorrow: </b>{d.tmrw}</div>}
+          {d.hardest&&<div style={{fontSize:13,color:C.white,marginTop:6,padding:"10px 12px",background:glass(0.04),borderRadius:10,border:border(0.08)}}><b style={{color:C.muted}}>Hardest: </b>{d.hardest}</div>}
+        </Card>}
+        {ci.weekly&&<Card>
+          <div style={{fontSize:10,color:C.purple,fontWeight:700,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:10}}>Weekly Review</div>
+          <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:10}}>
+            {w.weekFeel&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:`${C.purple}20`,color:C.purple}}>{w.weekFeel}</span>}
+            {w.trainConsistency&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:glass(0.06),color:C.muted,border:border(0.08)}}>Training: {w.trainConsistency}</span>}
+            {w.nutrition&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:glass(0.06),color:C.muted,border:border(0.08)}}>{w.nutrition}</span>}
+            {w.confidence&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:`${C.green}20`,color:C.green}}>{w.confidence}</span>}
+            {w.recovery&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:glass(0.06),color:C.muted,border:border(0.08)}}>{w.recovery}</span>}
+          </div>
+          {w.bigWin&&<div style={{fontSize:13,color:C.white,padding:"10px 12px",background:glass(0.04),borderRadius:10,border:border(0.08)}}><b style={{color:C.gold}}>Big Win: </b>{w.bigWin}</div>}
+          {w.highlight&&<div style={{fontSize:13,color:C.white,marginTop:6,padding:"10px 12px",background:glass(0.04),borderRadius:10,border:border(0.08)}}><b style={{color:C.blue}}>Highlight: </b>{w.highlight}</div>}
+          {w.adjustment&&<div style={{fontSize:13,color:C.white,marginTop:6,padding:"10px 12px",background:glass(0.04),borderRadius:10,border:border(0.08)}}><b style={{color:C.purple}}>Adjustment: </b>{w.adjustment}</div>}
+          {w.hardest&&<div style={{fontSize:13,color:C.white,marginTop:6,padding:"10px 12px",background:glass(0.04),borderRadius:10,border:border(0.08)}}><b style={{color:C.muted}}>Hardest thing: </b>{w.hardest}</div>}
+          {w.coachFocus&&<div style={{fontSize:13,color:C.white,marginTop:6,padding:"10px 12px",background:`${C.blue}10`,borderRadius:10,border:`1px solid ${C.blue}30`}}><b style={{color:C.blue}}>Coach focus: </b>{w.coachFocus}</div>}
+        </Card>}
+      </div>
+    </div>;
+  }
+
+  return <div>
+    <div style={{padding:"52px 20px 12px",display:"flex",alignItems:"center",gap:12}}>
+      <button onClick={onBack} style={{background:glass(0.07),border:border(0.1),color:C.white,width:36,height:36,borderRadius:12,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><Icon d={Icons.back} size={16} color={C.white}/></button>
+      <div>
+        <div style={{fontSize:10,color:C.gold,fontWeight:700,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:2}}>History</div>
+        <div style={{fontSize:22,fontWeight:700,color:C.white,letterSpacing:"-0.04em"}}>My Check-Ins</div>
+      </div>
+    </div>
+    <div style={{padding:"0 20px",display:"flex",flexDirection:"column",gap:8,paddingBottom:90}}>
+      {!ready&&<div style={{textAlign:"center",padding:"30px",color:C.muted}}>Loading...</div>}
+      {ready&&entries.length===0&&<div style={{textAlign:"center",padding:"50px 20px",color:C.sub}}><Icon d={Icons.clipboard} size={36} color={C.sub} style={{margin:"0 auto 12px",display:"block"}}/><div style={{fontSize:14,color:C.muted}}>No check-ins yet</div></div>}
+      {entries.map(([date,ci])=>{
+        const hasDaily=!!ci.daily,hasWeekly=!!ci.weekly;
+        const d=ci.daily||{};
+        return <Card key={date} onClick={()=>setSel(date)} style={{cursor:"pointer",padding:"14px 16px"}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+            <div>
+              <div style={{fontWeight:700,fontSize:14,color:C.white,marginBottom:4}}>{fmtDate(date)}</div>
+              <div style={{display:"flex",gap:4}}>
+                {hasDaily&&<span style={{fontSize:9,padding:"2px 7px",borderRadius:5,background:`${C.blue}20`,color:C.blue,fontWeight:700}}>DAILY</span>}
+                {hasWeekly&&<span style={{fontSize:9,padding:"2px 7px",borderRadius:5,background:`${C.purple}20`,color:C.purple,fontWeight:700}}>WEEKLY</span>}
+              </div>
+              {d.weight&&<div style={{fontSize:11,color:C.muted,marginTop:4}}>{d.weight} lbs{d.mood?` - Mood: ${d.mood}`:""}</div>}
+            </div>
+            <Icon d={Icons.chevronR} size={16} color={C.sub}/>
+          </div>
+        </Card>;
+      })}
+    </div>
   </div>;
 }
 
