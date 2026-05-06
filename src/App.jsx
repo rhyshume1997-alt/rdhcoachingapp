@@ -13,7 +13,7 @@ const glass=(a=0.04)=>`rgba(255,255,255,${a})`;
 const border=(a=0.08)=>`1px solid rgba(255,255,255,${a})`;
 const glow=(col,s=20)=>`0 0 ${s}px ${col}22`;
 const FONT="'DM Sans', sans-serif";
-const COACH_PIN="RDH2025";
+const COACH_PIN="6746";
 
 const Icon=({d,size=18,color="currentColor",fill="none",strokeWidth=1.5,style={}})=>(
   <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0,...style}}>
