@@ -421,6 +421,19 @@ const getStreak=(log,n)=>{if(!n)return 0;let s=0;const d=new Date();while(s<365)
 const resizeImg=(url,maxW=800)=>new Promise(res=>{const img=new Image();img.onload=()=>{const c=document.createElement("canvas"),sc=Math.min(1,maxW/img.width);c.width=img.width*sc;c.height=img.height*sc;c.getContext("2d").drawImage(img,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",0.72));};img.src=url;});
 
 // ── PRIMITIVES ─────────────────────────────────────────────────────────────────
+const Toast=({msg,show})=>{
+  if(!show)return null;
+  return <div style={{position:"fixed",bottom:100,left:"50%",transform:"translateX(-50%)",zIndex:99999,background:C.green,color:"#fff",padding:"10px 22px",borderRadius:999,fontSize:13,fontWeight:700,boxShadow:"0 4px 20px rgba(0,0,0,0.3)",animation:"fadeIn 0.2s ease",whiteSpace:"nowrap",letterSpacing:"0.02em"}}>
+    {msg}
+  </div>;
+};
+
+const useToast=()=>{
+  const [toast,setToast]=useState({msg:"",show:false});
+  const show=(msg="Saved")=>{setToast({msg,show:true});setTimeout(()=>setToast({msg:"",show:false}),1800);};
+  return{toast,show};
+};
+
 const GlobalStyle=()=>(<style>{`*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;} body,*{font-family:'DM Sans',sans-serif;} ::-webkit-scrollbar{display:none;} input,select,textarea{color:#FDFDFD;background:transparent;} input[type=number]::-webkit-inner-spin-button{opacity:0;} ::placeholder{color:#4A4A68;} select option{background:#15151E;} @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}} .fade-in{animation:fadeIn 0.22s ease both;} input[type=range]{accent-color:#5271FF;width:100%;}`}</style>);
 
 const Card=({children,style={},onClick})=>(<div onClick={onClick} style={{background:glass(0.035),border:border(0.09),borderRadius:20,padding:18,backdropFilter:"blur(12px)",WebkitBackdropFilter:"blur(12px)",cursor:onClick?"pointer":"default",boxShadow:"0 4px 24px rgba(0,0,0,0.35)",transition:"all 0.2s ease",...style}}>{children}</div>);
@@ -706,6 +719,14 @@ function ExForm({ex,onSave,onClose}){
   </div>;
 }
 
+
+const WORKOUT_TEMPLATES=[
+  {name:"Push Day",exercises:[{exId:"e1",name:"Bench Press",cat:"Chest",sets:[{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false}]},{exId:"e11",name:"Overhead Press",cat:"Shoulders",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},{exId:"e12",name:"Lateral Raise",cat:"Shoulders",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]},{exId:"e17",name:"Tricep Pushdown",cat:"Triceps",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]}]},
+  {name:"Pull Day",exercises:[{exId:"e6",name:"Deadlift",cat:"Back",sets:[{weight:"",reps:"5",done:false},{weight:"",reps:"5",done:false},{weight:"",reps:"5",done:false}]},{exId:"e8",name:"Barbell Row",cat:"Back",sets:[{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false}]},{exId:"e9",name:"Lat Pulldown",cat:"Back",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},{exId:"e14",name:"Barbell Curl",cat:"Biceps",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]}]},
+  {name:"Leg Day",exercises:[{exId:"e19",name:"Squat",cat:"Legs",sets:[{weight:"",reps:"5",done:false},{weight:"",reps:"5",done:false},{weight:"",reps:"5",done:false}]},{exId:"e21",name:"Leg Press",cat:"Legs",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},{exId:"e25",name:"Hip Thrust",cat:"Legs",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},{exId:"e22",name:"Leg Curl",cat:"Legs",sets:[{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false},{weight:"",reps:"12",done:false}]}]},
+  {name:"Upper Body",exercises:[{exId:"e2",name:"Incline Bench Press",cat:"Chest",sets:[{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false}]},{exId:"e8",name:"Barbell Row",cat:"Back",sets:[{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false}]},{exId:"e11",name:"Overhead Press",cat:"Shoulders",sets:[{weight:"",reps:"10",done:false},{weight:"",reps:"10",done:false}]},{exId:"e7",name:"Pull Up",cat:"Back",sets:[{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false},{weight:"",reps:"8",done:false}]}]},
+];
+
 // ── WORKOUT LOGGER ────────────────────────────────────────────────────────────
 function WorkoutLogger({workouts,setWorkouts,onWorkoutSave,exercises,setExercises,programmes,clientProgrammeId,orms:extOrms={}}){
   const [view,setView]=useState("history"); const [active,setActive]=useState(null); const [elapsed,setElapsed]=useState(0); const [pickEx,setPickEx]=useState(false); const [openId,setOpenId]=useState(null);
@@ -719,7 +740,8 @@ function WorkoutLogger({workouts,setWorkouts,onWorkoutSave,exercises,setExercise
   const updSet=(ei,si,k,v)=>setActive(a=>{const es=[...a.exercises],ss=[...es[ei].sets];ss[si]={...ss[si],[k]:v};es[ei]={...es[ei],sets:ss};return{...a,exercises:es};});
   const togSet=(ei,si)=>setActive(a=>{const es=[...a.exercises],ss=[...es[ei].sets];ss[si]={...ss[si],done:!ss[si].done};es[ei]={...es[ei],sets:ss};return{...a,exercises:es};});
   const remEx=ei=>setActive(a=>({...a,exercises:a.exercises.filter((_,i)=>i!==ei)}));
-  const finish=()=>{const w={id:uid(),name:active.name,date:new Date().toISOString(),duration:Math.round(elapsed/60),exercises:active.exercises};if(onWorkoutSave)onWorkoutSave(w);else setWorkouts(p=>[...p,w]);setView("history");setActive(null);setElapsed(0);};
+  const [savedMsg,setSavedMsg]=useState(false);
+  const finish=()=>{const w={id:uid(),name:active.name,date:new Date().toISOString(),duration:Math.round(elapsed/60),exercises:active.exercises};if(onWorkoutSave)onWorkoutSave(w);else setWorkouts(p=>[...p,w]);setSavedMsg(true);setTimeout(()=>setSavedMsg(false),1800);setView("history");setActive(null);setElapsed(0);};
   const assignedProg=programmes?.find(p=>p.id===clientProgrammeId);
 
   if(pickEx)return <div><div style={{padding:"18px 20px 0",display:"flex",alignItems:"center",gap:12}}><button onClick={()=>setPickEx(false)} style={{background:glass(0.07),border:border(0.1),color:C.white,width:36,height:36,borderRadius:12,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}><Icon d={Icons.back} size={16} color={C.white}/></button><span style={{fontSize:18,fontWeight:700,color:C.white}}>Pick Exercise</span></div><ExLib exercises={exercises} setExercises={setExercises} onPick={addEx}/></div>;
@@ -761,6 +783,7 @@ function WorkoutLogger({workouts,setWorkouts,onWorkoutSave,exercises,setExercise
   }
 
   return <div>
+    <Toast msg="Workout saved!" show={savedMsg}/>
     <PageHead title="Workouts" sub={`${workouts.length} sessions`} right={<Btn onClick={()=>start(null)} style={{padding:"9px 16px",fontSize:13}} icon="bolt">Start</Btn>}/>
     <div style={{padding:"0 20px",display:"flex",flexDirection:"column",gap:10,paddingBottom:90}}>
       {assignedProg&&<Card style={{background:`linear-gradient(135deg,${C.blue}18,${C.purple}12)`,border:`1px solid ${C.blue}30`}}>
@@ -781,10 +804,15 @@ function WorkoutLogger({workouts,setWorkouts,onWorkoutSave,exercises,setExercise
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}><span style={{fontWeight:600,fontSize:13,color:C.white}}>{ex.name}</span>{eOrm>0&&<span style={{fontSize:11,color:C.purple,fontWeight:600}}>Est. 1RM {eOrm.toFixed(1)}kg</span>}</div>
             {ex.sets.map((s,j)=>{const p=eOrm>0&&s.weight?Math.round(parseFloat(s.weight)/eOrm*100):null;return <div key={j} style={{display:"flex",gap:10,fontSize:12,color:C.muted,marginBottom:2,alignItems:"center"}}><span style={{color:C.sub,fontWeight:600,minWidth:36}}>Set {j+1}</span><span>{s.weight||"-"}kgx{s.reps||"-"}</span>{p&&<span style={{color:p>=85?C.green:C.gold}}>{p}%</span>}{s.done&&<Icon d={Icons.check} size={11} color={C.green}/>}</div>;})}</div>;
           })}
-          <Btn onClick={e=>{e.stopPropagation();setWorkouts(p=>p.filter(x=>x.id!==w.id));setOpenId(null);}} variant="danger" style={{width:"100%",padding:"9px 0",marginTop:6,fontSize:12,justifyContent:"center"}} icon="trash">Delete</Btn>
+          <Btn onClick={e=>{e.stopPropagation();if(window.confirm("Delete this workout? This cannot be undone.")){{setWorkouts(p=>p.filter(x=>x.id!==w.id));setOpenId(null);}}}} variant="danger" style={{width:"100%",padding:"9px 0",marginTop:6,fontSize:12,justifyContent:"center"}} icon="trash">Delete</Btn>
         </div>}
       </Card>;})}
-      {workouts.length===0&&<div style={{textAlign:"center",padding:"60px 20px"}}><div style={{width:60,height:60,borderRadius:20,background:glass(0.05),border:border(0.1),display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 16px"}}><Icon d={Icons.dumbbell} size={28} color={C.sub}/></div><div style={{fontWeight:700,fontSize:18,color:C.white,marginBottom:8}}>No sessions yet</div><div style={{color:C.muted,marginBottom:20,fontSize:14}}>Every rep counts. Start your first session.</div><Btn onClick={()=>start(null)} style={{justifyContent:"center"}} icon="bolt">Start Workout</Btn></div>}
+      {/* Templates section */}
+      <div style={{fontSize:10,color:C.sub,fontWeight:700,letterSpacing:"0.12em",textTransform:"uppercase",marginBottom:6,marginTop:4}}>Quick Start Templates</div>
+      <div style={{display:"flex",gap:6,overflowX:"auto",paddingBottom:4,marginBottom:8}}>
+        {WORKOUT_TEMPLATES.map((t,i)=><button key={i} onClick={()=>{setActive({name:t.name,exercises:t.exercises.map(e=>({...e,sets:e.sets.map(s=>({...s}))}))});setElapsed(0);setView("active");}} style={{flexShrink:0,padding:"9px 16px",borderRadius:12,background:glass(0.06),border:border(0.1),color:C.white,cursor:"pointer",fontFamily:FONT,fontSize:12,fontWeight:600,whiteSpace:"nowrap",display:"flex",alignItems:"center",gap:6}}><Icon d={Icons.bolt} size={12} color={C.gold}/>{t.name}</button>)}
+      </div>
+      {workouts.length===0&&<div style={{textAlign:"center",padding:"40px 20px"}}><div style={{width:60,height:60,borderRadius:20,background:glass(0.05),border:border(0.1),display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 16px"}}><Icon d={Icons.dumbbell} size={28} color={C.sub}/></div><div style={{fontWeight:700,fontSize:18,color:C.white,marginBottom:8}}>No sessions yet</div><div style={{color:C.muted,marginBottom:20,fontSize:14}}>Every rep counts. Start your first session.</div><Btn onClick={()=>start(null)} style={{justifyContent:"center"}} icon="bolt">Start Workout</Btn></div>}
     </div>
   </div>;
 }
@@ -796,6 +824,7 @@ function CheckInPage({clientId, workouts, habits, habitLog, metrics, setMetrics,
   const [formView, setFormView] = useState("hub"); // hub | daily | weekly
   const [answers, setAnswers] = useState({});
   const [ready, setReady] = useState(false);
+  const [savedToast,setSavedToast]=useState(false);
   const todayEntry = checkInLog[today];
   const todayDailyDone = !!(todayEntry?.daily);
   const todayWeeklyDone = !!(todayEntry?.weekly);
@@ -844,6 +873,7 @@ function CheckInPage({clientId, workouts, habits, habitLog, metrics, setMetrics,
     if(r) onReward(r);
     setAnswers({});
     setFormView("hub");
+    setSavedToast(true);setTimeout(()=>setSavedToast(false),1800);
   };
 
   // Renders a single form field
@@ -976,12 +1006,15 @@ function CheckInPage({clientId, workouts, habits, habitLog, metrics, setMetrics,
   // ── HUB VIEW ─────────────────────────────────────────────────────────────────
   return(
     <div>
-      <div style={{padding:"52px 20px 16px",display:"flex",justifyContent:"space-between",alignItems:"flex-end"}}>
-        <div>
-          <div style={{fontSize:10,color:C.muted,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:3}}>Check In</div>
-          <div style={{fontSize:26,fontWeight:700,color:C.white,letterSpacing:"-0.04em"}}>Daily Standards</div>
+      <Toast msg="Check-in submitted!" show={savedToast}/>
+      <div style={{background:`linear-gradient(160deg,${C.gold}22 0%,${C.purple}10 100%)`,padding:"52px 20px 20px",marginBottom:4}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end"}}>
+          <div>
+            <div style={{fontSize:10,color:C.gold,fontWeight:700,letterSpacing:"0.12em",textTransform:"uppercase",marginBottom:4}}>Check In</div>
+            <div style={{fontSize:28,fontWeight:700,color:C.white,letterSpacing:"-0.04em",lineHeight:1}}>Daily Standards</div>
+          </div>
+          <TierBadge tier={tier}/>
         </div>
-        <TierBadge tier={tier}/>
       </div>
       <div style={{padding:"0 20px",display:"flex",flexDirection:"column",gap:12,paddingBottom:90}}>
 
@@ -1695,9 +1728,15 @@ function CalendarView({workouts,habitLog,habits}){
 const HABIT_ICONS_LIST=["food","water","dumbbell","sleep","clipboard","steps","flame","bolt","star","chart"];
 function Habits({habits,setHabits,habitLog,setHabitLog}){
   const [adding,setAdding]=useState(false); const [tab,setTab]=useState("daily"); const [newH,setNewH]=useState({name:"",icon:"flame"});
-  const today=toDay(),done=(habitLog[today]||[]),streak=getStreak(habitLog,habits.length),pct=habits.length?Math.round(done.length/habits.length*100):0;
+  const [viewDate,setViewDate]=useState(toDay());
+  const today=toDay();
+  const activeDate=viewDate;
+  const done=(habitLog[activeDate]||[]),streak=getStreak(habitLog,habits.length),pct=habits.length?Math.round(done.length/habits.length*100):0;
   const week=weekDates(),R=40,circ=2*Math.PI*R,dash=(pct/100)*circ;
-  const toggle=id=>setHabitLog(p=>{const d=p[today]||[];return{...p,[today]:d.includes(id)?d.filter(x=>x!==id):[...d,id]};});
+  const isToday=activeDate===today;
+  const goBack=()=>{const d=new Date(activeDate);d.setDate(d.getDate()-1);setViewDate(d.toISOString().split("T")[0]);};
+  const goFwd=()=>{if(!isToday){const d=new Date(activeDate);d.setDate(d.getDate()+1);setViewDate(d.toISOString().split("T")[0]);}};
+  const toggle=id=>setHabitLog(p=>{const d=p[activeDate]||[];return{...p,[activeDate]:d.includes(id)?d.filter(x=>x!==id):[...d,id]};});
   return <div>
     <PageHead title="Trackers" sub={`${streak} day streak`} right={<div style={{display:"flex",gap:6}}><Pill label="Daily" active={tab==="daily"} onClick={()=>setTab("daily")}/><Pill label="Weekly" active={tab==="weekly"} onClick={()=>setTab("weekly")}/></div>}/>
     <div style={{padding:"0 20px",display:"flex",flexDirection:"column",gap:12,paddingBottom:90}}>
@@ -1712,7 +1751,14 @@ function Habits({habits,setHabits,habitLog,setHabitLog}){
           </div>
         </div>
         <Card>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}><span style={{fontWeight:600,fontSize:14,color:C.white}}>Today</span><Btn onClick={()=>setAdding(true)} variant="ghost" style={{padding:"5px 10px",fontSize:12,color:C.blue}} icon="plus">Add</Btn></div>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+            <div style={{display:"flex",alignItems:"center",gap:8}}>
+              <button onClick={goBack} style={{background:glass(0.06),border:border(0.1),color:C.white,width:28,height:28,borderRadius:9,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:FONT,fontSize:14}}>{"<"}</button>
+              <span style={{fontWeight:700,fontSize:14,color:isToday?C.white:C.blue}}>{isToday?"Today":fmtShort(activeDate)}</span>
+              <button onClick={goFwd} disabled={isToday} style={{background:isToday?glass(0.02):glass(0.06),border:border(0.1),color:isToday?C.sub:C.white,width:28,height:28,borderRadius:9,cursor:isToday?"default":"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:FONT,fontSize:14,opacity:isToday?0.3:1}}>{">"}</button>
+            </div>
+            <Btn onClick={()=>setAdding(true)} variant="ghost" style={{padding:"5px 10px",fontSize:12,color:C.blue}} icon="plus">Add</Btn>
+          </div>
           <div style={{display:"flex",flexDirection:"column",gap:8}}>
             {habits.map(h=>{const isDone=done.includes(h.id);return <div key={h.id} onClick={()=>toggle(h.id)} style={{display:"flex",alignItems:"center",gap:11,padding:"11px 13px",borderRadius:14,background:isDone?`${C.green}12`:glass(0.04),border:isDone?`1px solid ${C.green}30`:border(0.08),cursor:"pointer",transition:"all 0.18s"}}>
               <div style={{width:32,height:32,borderRadius:10,background:isDone?`${C.green}25`:glass(0.06),border:isDone?`1px solid ${C.green}40`:border(0.1),display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{isDone?<Icon d={Icons.check} size={15} color={C.green}/>:<Icon d={Icons[h.icon]||Icons.check} size={14} color={C.sub}/>}</div>
@@ -1774,12 +1820,7 @@ function StatsPage({metrics,setMetrics,workouts,photoIds,photoMap,addPhoto,delet
         </div>
       </Card>}
       <Btn onClick={()=>setAdding(true)} style={{width:"100%",justifyContent:"center"}} icon="plus">Log Check-In</Btn>
-      <div style={{display:"flex",gap:4,background:glass(0.04),borderRadius:12,padding:4,border:border(0.09)}}>
-        {[["weight","Weight"],["meas","Measurements"],["volume","Volume"]].map(([v,l])=><button key={v} onClick={()=>setChartView(v)} style={{flex:1,padding:"8px 0",borderRadius:9,border:"none",cursor:"pointer",fontSize:12,fontWeight:600,fontFamily:FONT,background:chartView===v?glass(0.12):glass(0.0),color:chartView===v?C.white:C.muted,transition:"all 0.15s"}}>{l}</button>)}
-      </div>
-      {chartView==="weight"&&chartData.length>=2&&<Card><div style={{fontWeight:600,fontSize:14,color:C.white,marginBottom:12}}>Weight</div><ResponsiveContainer width="100%" height={120}><AreaChart data={chartData} margin={{top:5,right:0,left:-28,bottom:0}}><defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor={C.blue} stopOpacity={0.3}/><stop offset="95%" stopColor={C.blue} stopOpacity={0}/></linearGradient></defs><XAxis dataKey="d" stroke={C.dark4} tick={{fontSize:9,fill:C.sub}}/><YAxis stroke={C.dark4} tick={{fontSize:9,fill:C.sub}}/><Tooltip contentStyle={ttStyle} formatter={v=>[`${v}kg`]} labelStyle={{color:C.muted}} itemStyle={{color:C.white}}/><Area type="monotone" dataKey="v" stroke={C.blue} strokeWidth={2} fill="url(#wg)" dot={false}/></AreaChart></ResponsiveContainer></Card>}
-      {chartView==="meas"&&measData.length>=2&&<Card><div style={{fontWeight:600,fontSize:14,color:C.white,marginBottom:12}}>Measurements</div><ResponsiveContainer width="100%" height={120}><LineChart data={measData} margin={{top:5,right:0,left:-28,bottom:0}}><XAxis dataKey="d" stroke={C.dark4} tick={{fontSize:9,fill:C.sub}}/><YAxis stroke={C.dark4} tick={{fontSize:9,fill:C.sub}}/><Tooltip contentStyle={ttStyle} formatter={v=>[`${v}cm`]} labelStyle={{color:C.muted}} itemStyle={{color:C.white}}/>{[["chest",C.blue],["waist",C.purple],["arms",C.green],["thighs",C.gold]].map(([k,c])=><Line key={k} type="monotone" dataKey={k} stroke={c} strokeWidth={2} dot={false} connectNulls/>)}</LineChart></ResponsiveContainer></Card>}
-      {chartView==="volume"&&weekVol.length>=2&&<Card><div style={{fontWeight:600,fontSize:14,color:C.white,marginBottom:12}}>Weekly Volume (t)</div><ResponsiveContainer width="100%" height={120}><AreaChart data={weekVol} margin={{top:5,right:0,left:-28,bottom:0}}><defs><linearGradient id="vg" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor={C.purple} stopOpacity={0.3}/><stop offset="95%" stopColor={C.purple} stopOpacity={0}/></linearGradient></defs><XAxis dataKey="w" stroke={C.dark4} tick={{fontSize:9,fill:C.sub}}/><YAxis stroke={C.dark4} tick={{fontSize:9,fill:C.sub}}/><Tooltip contentStyle={ttStyle} formatter={v=>[`${v}t`]} labelStyle={{color:C.muted}} itemStyle={{color:C.white}}/><Area type="monotone" dataKey="v" stroke={C.purple} strokeWidth={2} fill="url(#vg)" dot={false}/></AreaChart></ResponsiveContainer></Card>}
+      {chartData.length>=2&&<Card><div style={{fontWeight:600,fontSize:14,color:C.white,marginBottom:12}}>Weight Trend</div><ResponsiveContainer width="100%" height={140}><AreaChart data={chartData} margin={{top:5,right:0,left:-28,bottom:0}}><defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor={C.blue} stopOpacity={0.3}/><stop offset="95%" stopColor={C.blue} stopOpacity={0}/></linearGradient></defs><XAxis dataKey="d" stroke={C.dark4} tick={{fontSize:9,fill:C.sub}}/><YAxis stroke={C.dark4} tick={{fontSize:9,fill:C.sub}}/><Tooltip contentStyle={ttStyle} formatter={v=>[`${v}kg`]} labelStyle={{color:C.muted}} itemStyle={{color:C.white}}/><Area type="monotone" dataKey="v" stroke={C.blue} strokeWidth={2} fill="url(#wg)" dot={false}/></AreaChart></ResponsiveContainer></Card>}
       <div style={{fontSize:10,color:C.sub,fontWeight:700,letterSpacing:"0.12em",textTransform:"uppercase",marginBottom:0}}>CHECK-IN HISTORY</div>
       {[...metrics].reverse().map(m=><Card key={m.id} style={{padding:"12px 16px"}}><div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}><span style={{fontWeight:600,fontSize:13,color:C.white}}>{fmtDate(m.date)}</span><button onClick={()=>setMetrics(p=>p.filter(x=>x.id!==m.id))} style={{background:"none",border:"none",cursor:"pointer"}}><Icon d={Icons.trash} size={13} color={C.sub}/></button></div><div style={{display:"flex",gap:5,flexWrap:"wrap"}}>{m.weight&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:`${C.blue}20`,color:C.blue}}>{m.weight}kg</span>}{m.bodyFat&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:`${C.purple}20`,color:C.purple}}>{m.bodyFat}% BF</span>}{m.chest&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:glass(0.06),color:C.muted,border:border(0.08)}}>Chest {m.chest}cm</span>}{m.waist&&<span style={{fontSize:11,padding:"3px 9px",borderRadius:7,background:glass(0.06),color:C.muted,border:border(0.08)}}>Waist {m.waist}cm</span>}</div></Card>)}
       {metrics.length===0&&<div style={{textAlign:"center",padding:"30px 0",color:C.sub,fontSize:13}}>No check-ins yet</div>}
@@ -1810,9 +1851,17 @@ function ClientHome({workouts,habits,habitLog,metrics,setTab,name,clientId,tier=
   const assignedProg=programmes?.find(p=>p.id===clientProgId);
   const todayChecked=!!(checkInLog&&checkInLog[today]);
   return <div>
-    <div style={{padding:"52px 20px 16px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-      <div style={{display:"flex",alignItems:"center",gap:12}}><RDHBadge size={38}/><div><div style={{fontSize:11,color:C.muted,fontWeight:500}}>{greeting}</div><div style={{fontSize:17,fontWeight:700,color:C.white,letterSpacing:"-0.03em"}}>{name||"Athlete"}</div></div></div>
-      <TierBadge tier={tier}/>
+    <div style={{background:`linear-gradient(160deg,${C.blue}22 0%,${C.purple}15 50%,transparent 100%)`,padding:"52px 20px 20px",marginBottom:4}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+        <div style={{display:"flex",alignItems:"center",gap:12}}>
+          <RDHBadge size={42}/>
+          <div>
+            <div style={{fontSize:11,color:C.muted,fontWeight:500,letterSpacing:"0.04em"}}>{greeting}</div>
+            <div style={{fontSize:20,fontWeight:700,color:C.white,letterSpacing:"-0.03em"}}>{name||"Athlete"}</div>
+          </div>
+        </div>
+        <TierBadge tier={tier}/>
+      </div>
     </div>
     <div style={{padding:"0 20px",display:"flex",flexDirection:"column",gap:12,paddingBottom:90}}>
       {/* Streak calendar */}
@@ -2154,7 +2203,7 @@ export default function RDHApp(){
   const [view,setView]=useState("loading"); const [clientId,setClientId]=useState(null); const [clientName,setClientName]=useState(null);
   useEffect(()=>{db.get("rdh:session",false).then(s=>{if(s?.view==="client"&&s?.clientId){setClientId(s.clientId);setClientName(s.clientName);setView("client");}else if(s?.view==="coach"){setView("coach");}else{setView("login");}});}, []);
   const login=(v,id,name)=>{setClientId(id);setClientName(name);setView(v);};
-  const logout=()=>{db.del("rdh:session",false);setClientId(null);setClientName(null);setView("login");};
+  const logout=()=>{if(window.confirm("Are you sure you want to exit?")){{db.del("rdh:session",false);setClientId(null);setClientName(null);setView("login");}}};
   if(view==="loading")return <div style={{background:C.bg,minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center"}}><GlobalStyle/><RDHBadge size={48}/></div>;
   if(view==="login")return <Login onLogin={login}/>;
   if(view==="coach")return <CoachApp onLogout={logout}/>;
